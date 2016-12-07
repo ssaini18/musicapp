@@ -1,0 +1,69 @@
+{% extends 'music/base.html' %}
+{% block title %}Home{% endblock %}
+{% block content %}
+<h2>List of albums</h2>
+{% if all_albums %}
+<div class="row">
+    {% for album in all_albums %}
+    <div class="col-sm-4">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <a href="{% url 'music:detail' album.id %}"><img src="{{ album.album_logo.url }}" width="100%"></a>
+            </div>
+            <div class="panel-footer">
+                <h2>{{ album.album_name }}</h2>
+                <h3>{{ album.artist }}</h3>
+                <a href="{% url 'music:detail' album.id %}" class="btn btn-primary" role="button">View Details</a>
+                <form action="{% url 'music:album_delete' album.id %}" method="POST" style="display:inline;">
+                    {% csrf_token %}
+                    <button class="btn btn-default"><span class="glyphicon glyphicon-trash"></span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+    <h3>You don't have any albums</h3>
+{% endif %}
+
+{% if all_songs %}
+<div class="col-md-12">
+    <div class="panel panel-deafult">
+        <div class="panel-body">
+            <h3>Songs</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Artist</th>
+                    <th>Action</th>
+                    <th>Album</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for song in all_songs %}
+                <tr>
+                    <td>{{ song.song_name }}</td>
+                    <td>{{ song.album.artist }}</td>
+                    <td>
+                        <a href="{{ song.audio_file.url }}">
+                            <button class="btn btn-success btn-sm">
+                                <span class="glyphicon glyphicon-play"> Play</span>
+                            </button>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{% url 'music:detail' song.album.id %}">
+                           {{ song.album.album_name }}
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

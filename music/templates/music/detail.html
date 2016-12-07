@@ -1,0 +1,63 @@
+{% extends 'music/base.html' %}
+{% block title %}Album{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <img src="{{ album.album_logo.url }}" width="100%">
+                </div>
+                <div class="panel-footer">
+                    <h2>{{ album.album_name }} <small>{{ album.genre }}</small></h2>
+                    <h3>{{ album.artist }}</h3>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <a href="{% url 'music:detail' album.id %}" class="btn btn-primary" role="button">View All</a>
+            <a href="{% url 'music:add_song' album.id %}" class="btn btn-default" role="button">Add Songs</a>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>All Songs</h3>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Audio File</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for song in album.song_set.all %}
+                        <tr>
+                            <td>{{ song.song_name }}</td>
+                            <td>
+                                <a href="{{ song.audio_file.url }}">
+                                    <button class="btn btn-success btn-sm">
+                                        <span class="glyphicon glyphicon-play"> Play</span>
+                                    </button>
+                                </a>
+                            </td>
+                            <td>
+                                <form action="{% url 'music:song_delete' album.id song.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+
+

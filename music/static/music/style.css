@@ -1,0 +1,9 @@
+body {
+     background: lightgrey;
+}
+.navbar {
+     border-radius:0;
+}
+.navbar-brand {
+    font-family: cursive;
+}

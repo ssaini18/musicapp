@@ -1,0 +1,27 @@
+{% extends 'music/base-visitor.html' %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>Register </h3>
+                    <form class="form-horizontal" role="form" action="" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% include 'music/form-template.html' %}
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-success">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="panel-footer">
+                    <p>Already have an account? <a href="{% url 'music:user_login' %}">Login</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
